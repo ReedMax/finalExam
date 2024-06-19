@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>分类结果</title>
+</head>
+<body>
+    <h1>分类结果</h1>
+    <ul>
+        {% for name, accuracy in results.items() %}
+            <li>{{ name }} 准确率: {{ accuracy }}</li>
+        {% endfor %}
+    </ul>
+    <h2>决策边界</h2>
+    {% for name in figures %}
+        <h3>{{ name }}</h3>
+        <img src="{{ url_for('fig', name=name) }}" alt="{{ name }} 决策边界">
+    {% endfor %}
+    <br>
+    <a href="/">返回主页重新选择特征</a>
+</body>
+</html>

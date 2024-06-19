@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Wine Classification</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid black;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Wine Classification</h1>
+    <form action="/train" method="post">
+        <label for="feature1">选择第一个特征:</label>
+        <select name="feature1" id="feature1" onchange="updateOptions()">
+            {% for index, feature in enumerate(feature_names) %}
+                <option value="{{ index }}" {% if index == 0 %}selected{% endif %}>{{ feature }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <label for="feature2">选择第二个特征:</label>
+        <select name="feature2" id="feature2">
+            {% for index, feature in enumerate(feature_names) %}
+                <option value="{{ index }}" {% if index == 1 %}selected{% endif %}>{{ feature }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <button type="submit">Train and Classify</button>
+    </form>
+
+    <h2>Wine Dataset</h2>
+    <table>
+        <thead>
+            <tr>
+                {% for feature in feature_names %}
+                    <th>{{ feature }}</th>
+                {% endfor %}
+                <th>Class</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in wine_data %}
+                <tr>
+                    {% for cell in row %}
+                        <td>{{ cell }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        function updateOptions() {
+            const feature1 = document.getElementById('feature1').value;
+            const feature2 = document.getElementById('feature2');
+
+            for (let i = 0; i < feature2.options.length; i++) {
+                feature2.options[i].disabled = (feature2.options[i].value === feature1);
+            }
+        }
+
+        document.getElementById('feature1').addEventListener('change', updateOptions);
+        window.onload = updateOptions; // 确保页面加载时调用一次
+    </script>
+</body>
+</html>
